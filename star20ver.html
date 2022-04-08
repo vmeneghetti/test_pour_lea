@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>star</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    #star {
+      text-align: center;
+      font-size: 20px;
+      display: flex;
+      justify-content: center;
+      color: white;
+      display: none;
+    }
+
+    #monInput {
+      text-align: center;
+      font-size: 20px;
+      margin-left: 37%;
+    }
+
+    p {
+      text-align: center;
+      font-size: 20px;
+      color: black;
+      font-family: Helvetica;
+
+    }
+
+    #button {
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <p><b><u>Veuillez saisir la taille de l'étoile</u></b></p>
+    <input id="monInput" width=100></input>
+    <button id="button" type="button" onclick="drawShape();">Dessiner</button>
+  </div>
+  <div id="star">
+  </div>
+
+  <canvas id="canvas1"></canvas>
+
+  <script type="text/javascript">
+    function dessinerEtoile(element){
+      var inputValue = document.getElementById("monInput").value;
+      var star = document.getElementById("canvas1");
+      star.style.display = "block";
+      star.style.fontSize = inputValue + "px";
+    }
+  </script>
+
+  <script>
+    const canvas = document.getElementById("canvas1");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    const monInput = document.getElementById("monInput");
+
+    monInput.addEventListener('keyup', (e) => {
+      console.log(e);
+      if(e.key === 'Enter') {
+        drawShape();
+      }
+    }
+
+    );
+
+    function drawShape() {
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      var radius =  monInput.value;
+      var inset = 0.5;
+      var n = 5;
+
+      if(isNaN(radius) || radius === '') {
+        alert('Veuillez saisir un nombre entier');
+      } else if(radius < 0) {
+        alert('Veuillez saisir un nombre entier supérieur ou égal à 0');
+      } else {
+        ctx.beginPath();
+        ctx.save();
+        ctx.translate(canvas.width/2, canvas.height/2);
+        ctx.moveTo(0,0 - radius);
+
+        for (let i = 0; i < n; i++){
+          ctx.rotate(Math.PI/n);
+          ctx.lineTo(0, 0 - radius*inset);
+          ctx.rotate(Math.PI/n);
+          ctx.lineTo(0,0 - radius);
+
+        }
+
+        ctx.restore();
+        ctx.closePath();
+        ctx.stroke();
+      }
+
+    }
+  //drawShape(100,0.5, 5);
+</script>
+
+</html>
